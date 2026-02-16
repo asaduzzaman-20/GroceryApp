@@ -1,5 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { dummyProducts } from "../assets/greencart_assets/assets";
 
 
 export const AppContext = createContext(null);
@@ -8,6 +9,14 @@ const AppcontextProvider = ({children}) =>{
     const [user, setUser]= useState(null);
     const [isSeller, setIsSeller] =useState(null);
     const [showUserLogin, setShowUserLogin] =useState(false);
+    const [products,setProduct]=useState([])
+    const fetchProducts=async()=>{
+        setProduct(dummyProducts);
+    }
+    useEffect(()=>{
+        fetchProducts()
+    },[])
+    
     const value = {
         navigate,
         user,
@@ -15,31 +24,10 @@ const AppcontextProvider = ({children}) =>{
         isSeller,
         setIsSeller,
         showUserLogin,
-        setShowUserLogin};
+        setShowUserLogin,
+        products,
+    };
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 };
 export default AppcontextProvider;
 
-// import { createContext, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-
-// export const AppContext = createContext(null);
-
-// const AppcontextProvider = ({ children }) => {
-//   const navigate = useNavigate();
-//   const [user, setUser] = useState(true); // 👈 বড় U
-
-//   const value = {
-//     navigate,
-//     user,
-//     setUser, // 👈 বড় U
-//   };
-
-//   return (
-//     <AppContext.Provider value={value}>
-//       {children}
-//     </AppContext.Provider>
-//   );
-// };
-
-// export default AppcontextProvider;
