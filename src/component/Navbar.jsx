@@ -1,12 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { AppContext } from "../context/AppContext";
 import { assets } from "../assets/greencart_assets/assets";
 const Navbar = () => {
     const [open, setOpen] = useState(false)
-    const{user,setUser, navigate, setShowUserLogin} =useContext(AppContext)
+    const{user,setUser, navigate, setShowUserLogin, cartCount, searchQuery, setSearchQuery} =useContext(AppContext)
+    useEffect(()=>{
+        if(searchQuery,length>0){
+        navigate('/products');
+    }
+    },[searchQuery])
     return (
-        <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
+        <nav className="py-16 flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
 
             <Link to="/">
             <h1 className="text-2xl font-bold text-orange-600">
@@ -20,7 +25,9 @@ const Navbar = () => {
                  <Link to="/products">All Product</Link>
 
                 <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
-                    <input className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" />
+                    <input
+                    onChange={(e)=>setSearchQuery(e.target.value)}
+                    className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" />
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M10.836 10.615 15 14.695" stroke="#7A7B7D" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                         <path clipRule="evenodd" d="M9.141 11.738c2.729-1.136 4.001-4.224 2.841-6.898S7.67.921 4.942 2.057C2.211 3.193.94 6.281 2.1 8.955s4.312 3.92 7.041 2.783" stroke="#7A7B7D" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -29,7 +36,7 @@ const Navbar = () => {
 
                 <div onClick={()=>navigate('/cart')} className="relative cursor-pointer">
                    <img src={assets.cart_icon} alt="" className="w-6 h-6" />
-                    <button className="absolute -top-2 -right-3 text-xs text-white bg-indigo-500 w-[18px] h-[18px] rounded-full">3</button>
+                    <button className="absolute -top-2 -right-3 text-xs text-white bg-indigo-500 w-[18px] h-[18px] rounded-full">{cartCount()}</button>
                 </div>
 
                 {user?(
