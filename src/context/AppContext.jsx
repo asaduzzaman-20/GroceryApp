@@ -33,15 +33,19 @@ const AppcontextProvider = ({children}) =>{
         }
         return totalCount;
     }
-    const totoalCartAmount=()=>{
+    const totalCartAmount =()=>{
         let totalAmount=0;
         for(const items in cartItems){
             let itemInfo=products.find((product)=>product._id==items);
-        if(cartItems[items]>0){
-            totalAmount+=cartItems[items]*itemInfo.offerPrice;
+        // if(cartItems[items]>0){
+        //     totalAmount+=cartItems[items]*itemInfo.offerPrice;
+        // }
+        if (itemInfo && cartItems[items] > 0) {
+    totalAmount += cartItems[items] * itemInfo.offerPrice;
+}
+
         }
-        }
-        return Math.floor(totalAmount*1000)/100;
+        return Math.floor(totalAmount*100)/100;
     }
 
     const updateCartItem=(itemId, quantity)=>{
@@ -80,7 +84,7 @@ const AppcontextProvider = ({children}) =>{
         cartCount,
         removeFromCart,
         cartItems,
-        totoalCartAmount,
+        totalCartAmount,
         searchQuery,
         setSearchQuery,
     };

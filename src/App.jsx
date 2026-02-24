@@ -12,6 +12,12 @@ import Auth from './models/Auth';
 import ProductCategory from './pages/ProductCategory';
 import Footer from './component/Footer';
 import { Toaster } from 'react-hot-toast';
+import AddAddress from './pages/AddAddress';
+import SellerLayout from './pages/seller/SellerLayout';
+import SellerLogin from './component/seller/SellerLogin';
+import AddProduct from './pages/seller/AddProduct';
+import ProductList from './pages/seller/ProductList';
+import Orders from './pages/seller/Orders';
 const App = () => {
   const {isSeller, showUserLogin}= useContext(AppContext);
   const isSellerPath = useLocation().pathname.includes("seller");
@@ -30,6 +36,13 @@ const App = () => {
       <Route path='/Products/:category' element={<ProductCategory/>}/>
       <Route path='/Cart' element={<Cart/>}/>
       <Route path='/my-orders'element={<MyOrders/>}/>
+      <Route path='/add-address' element={<AddAddress/>}/>
+
+      <Route path='/seller' element={isSeller?<SellerLayout/>:<SellerLogin/>}>
+        <Route index path='add-product' element={isSeller?<AddProduct/>:null}/>
+        <Route path='product-list' element={isSeller?<ProductList/>:null}/>
+        <Route path='Orders' element={isSeller?<Orders/>:null}/>
+      </Route>
     </Routes>
     </div>
     {isSellerPath?null:<Footer/>}
